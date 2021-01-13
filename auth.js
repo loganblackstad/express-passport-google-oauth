@@ -10,7 +10,7 @@ module.exports = function (passport) {
     });
     passport.use(new GoogleStrategy({
         clientID: "489821279032-k3puvqnf5e4v6612jvgi0kdsp9skgdhr.apps.googleusercontent.com",
-        clientSecret: "_jKn0EzOXLHlKj4WrJBIy_MA",
+        clientSecret: process.env.CLIENT_SECRET,
         callbackURL: '/auth/google/callback'
     }, (token, refreshToken, profile, done) => {
         return done(null, {
