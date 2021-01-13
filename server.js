@@ -8,6 +8,7 @@ const express = require('express'),
 auth(passport);
 app.use(passport.initialize());
 
+// create middleware
 app.use(cookieSession({
     name: 'session',
     keys: ['SECRECT KEY'],
@@ -15,6 +16,7 @@ app.use(cookieSession({
 }));
 app.use(cookieParser());
 
+// set session cookie
 app.get('/', (req, res) => {
     if (req.session.token) {
         res.cookie('token', req.session.token);
@@ -29,6 +31,7 @@ app.get('/', (req, res) => {
     }
 });
 
+// on logout, set session cookie equal to null
 app.get('/logout', (req, res) => {
     req.logout();
     req.session = null;
