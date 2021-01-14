@@ -1,18 +1,24 @@
 require('dotenv').config()
 
-const express = require('express'),
-    app = express(),
-    passport = require('passport'),
-    auth = require('./auth'),
-    cookieParser = require('cookie-parser'),
-    cookieSession = require('cookie-session');
-const path = require('path');
+// const express = require('express'),
+//     app = express(),
+
+const passport = require('passport');
+const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
+
+const express = require('express');
 const authRoutes = require('./routes/auth-routes');
+const passportSetup = require('./config/passport-setup');
+const path = require('path');
+
+const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-auth(passport);
-app.use(passport.initialize());
+
+///auth(passport);
+///app.use(passport.initialize());
 
 
 // set up view engine
@@ -26,7 +32,6 @@ app.use('/auth', authRoutes);
 app.get('/home', (req, res) => {
     res.render('home');
 })
-
 
 // create middleware
 app.use(cookieSession({
@@ -63,7 +68,7 @@ app.get('/auth/google', passport.authenticate('google', {
     scope: ['https://www.googleapis.com/auth/userinfo.profile']
 }));
 
-app.get('/auth/google/callback',
+app.get('/auth/google/redirect',
     passport.authenticate('google', {
         failureRedirect: '/'
     }),
