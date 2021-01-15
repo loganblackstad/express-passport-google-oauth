@@ -4,13 +4,14 @@ require('dotenv').config()
 //     app = express(),
 
 const passport = require('passport');
-const cookieParser = require('cookie-parser');
-const cookieSession = require('cookie-session');
 
 const express = require('express');
 const authRoutes = require('./routes/auth-routes');
+const profileRoutes = require('./routes/profile-routes');
 const passportSetup = require('./config/passport-setup');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
 const path = require('path');
 
 const app = express();
@@ -24,6 +25,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // set up view engine
 app.set('view engine', 'ejs');
+
+
+// create middleware
+app.use(cookieSession({
+    name: 'session',
+    keys: [process.env.SECRET_COOKIE_KEY],
+    maxAge: 24 * 60 * 60 * 1000
+}));
+
+// initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 
 // connect to mongoDB
 mongoose.connect(process.env.MONGODB_URI, () => {
@@ -43,18 +58,13 @@ client.connect(err => {
 
 // set up routes
 app.use('/auth', authRoutes);
+app.use('/profile', profileRoutes);
 
 //create home route
 app.get('/home', (req, res) => {
     res.render('home');
 })
 
-// create middleware
-app.use(cookieSession({
-    name: 'session',
-    keys: [process.env.SECRET_COOKIE_KEY],
-    maxAge: 24 * 60 * 60 * 1000
-}));
 
 app.use(cookieParser());
 
