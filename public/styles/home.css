@@ -4,16 +4,29 @@ body{
 }
 nav{
     background: #ff5353;
-    padding: 20px 10px;
 }
-nav ul{
+
+nav div{
+    padding: 20px 10px;
     max-width: 960px;
     margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav div ul{
+    max-width: 960px;
+    margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: flex-start; 
 }
 nav li{
     list-style-type: none;
-    display: inline-block;
+    /*     
+    display: flex;
+    align-content: flex-start;
+    */
     margin: 0 10px 0 0;
 }
 nav a{
@@ -29,4 +42,9 @@ main, header{
     margin: 30px auto;
     padding: 0 10px;
     color: #333;
+}
+
+.signin{
+    display: flex;
+    justify-content: flex-end;
 }
