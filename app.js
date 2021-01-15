@@ -10,6 +10,7 @@ const cookieSession = require('cookie-session');
 const express = require('express');
 const authRoutes = require('./routes/auth-routes');
 const passportSetup = require('./config/passport-setup');
+const mongoose = require('mongoose');
 const path = require('path');
 
 const app = express();
@@ -23,6 +24,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // set up view engine
 app.set('view engine', 'ejs');
+
+// connect to mongoDB
+mongoose.connect(process.env.MONGODB_URI, () => {
+    console.log('connected to mongodb');
+});
+
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://tcampbell:<password>@cluster0.1kcil.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
 
 
 // set up routes
