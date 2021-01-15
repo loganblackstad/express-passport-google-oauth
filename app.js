@@ -58,17 +58,6 @@ app.get('/', (req, res) => {
 });
 
 
-app.get('/auth/google/redirect',
-    passport.authenticate('google', {
-        failureRedirect: '/'
-    }),
-    (req, res) => {
-        console.log(req.user.token);
-        req.session.token = req.user.token;
-        res.redirect('/');
-    }
-);
-
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
