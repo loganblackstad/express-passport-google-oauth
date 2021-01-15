@@ -14,8 +14,8 @@ router.get('/logout', (req, res) => {
   //handle w passport
   req.logout();
   req.session = null;
-  res.redirect('/');
-  res.render('logging out');
+  res.redirect('/home');
+  // res.render('logging out');
 })
 
 
